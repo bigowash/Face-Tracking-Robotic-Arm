@@ -165,6 +165,8 @@ static void draw_face_boxes(dl_matrix3du_t *image_matrix, box_array_t *boxes)
         Serial2.print(240 - face_center_tilt);
         Serial2.print(','); // comma separator
         Serial2.print(pixel_face_size);
+        Serial2.print(','); // comma separator
+        Serial2.print(face_distance);
         Serial2.println('>'); // end marker
     }
 }
