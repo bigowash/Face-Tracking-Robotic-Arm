@@ -3,12 +3,13 @@
 #include "esp_camera.h"
 #include "fb_gfx.h"
 #include "fd_forward.h"
+#include <WiFi.h>
 
 // for averaging the distance result
 // Define the number of samples to keep track of. The higher the number, the
 // more the readings will be smoothed, but the slower the output will respond to
 // the input.
-const int numReadings = 5;
+const int numReadings = 4;
 int readings[numReadings]; // the readings from the analog input
 int readIndex = 0;         // the index of the current reading
 int total = 0;             // the running total
@@ -17,6 +18,9 @@ int face_distance;
 
 #define CAMERA_MODEL_AI_THINKER
 #include "camera_pins.h"
+
+const char *ssid = "Android";
+const char *password = "mejdimej";
 
 static inline mtmn_config_t app_mtmn_config()
 {
@@ -38,12 +42,16 @@ static inline mtmn_config_t app_mtmn_config()
 }
 mtmn_config_t mtmn_config = app_mtmn_config();
 
+void startCameraServer();
+
 void setup()
 {
 
     // initialize the serial port:
     Serial.begin(115200);
     Serial2.begin(9600, SERIAL_8N1, 2, 14);
+    Serial.setDebugOutput(true);
+    Serial.println();
 
     camera_config_t config;
     config.ledc_channel = LEDC_CHANNEL_0;
@@ -95,6 +103,22 @@ void setup()
 
     sensor_t *s = esp_camera_sensor_get();
     s->set_framesize(s, FRAMESIZE_QVGA);
+
+    WiFi.begin(ssid, password);
+
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println("");
+    Serial.println("WiFi connected");
+
+    startCameraServer();
+
+    Serial.print("Camera Ready! Use 'http://");
+    Serial.print(WiFi.localIP());
+    Serial.println("' to connect");
 }
 
 static void draw_face_boxes(dl_matrix3du_t *image_matrix, box_array_t *boxes)
@@ -122,17 +146,17 @@ static void draw_face_boxes(dl_matrix3du_t *image_matrix, box_array_t *boxes)
 
         // Serial.print("this is h: ");
         // Serial.println(h);
-        Serial.print("this is x:  ");
-        Serial.println(face_center_pan - 160);
-        Serial.print("this is y:  ");
-        Serial.println(120 - face_center_tilt);
+        // Serial.print("this is x:  ");
+        // Serial.println(face_center_pan - 160);
+        // Serial.print("this is y:  ");
+        // Serial.println(120 - face_center_tilt);
 
-        Serial.print("rotation:     ");
-        Serial.println(map(face_center_pan, 0, 320, -32.5, 32.5));
-        Serial.print("height:     ");
-        Serial.println((195 * (120 - face_center_tilt)) / pixel_face_size);
-        Serial.print("pixel_face_size: ");
-        Serial.println(pixel_face_size);
+        // Serial.print("rotation:     ");
+        // Serial.println(map(face_center_pan, 0, 320, -32.5, 32.5));
+        // Serial.print("height:     ");
+        // Serial.println((195 * (120 - face_center_tilt)) / pixel_face_size);
+        // Serial.print("smoothed face height: ");
+        // Serial.println(pixel_face_size);
 
         // subtract the last reading:
         total = total - readings[readIndex];
@@ -160,13 +184,11 @@ static void draw_face_boxes(dl_matrix3du_t *image_matrix, box_array_t *boxes)
         Serial.println(face_distance);
 
         Serial2.print('<'); // start marker
-        Serial2.print(face_center_pan);
+        Serial2.print(face_center_pan - 160);
         Serial2.print(','); // comma separator
         Serial2.print(240 - face_center_tilt);
         Serial2.print(','); // comma separator
         Serial2.print(pixel_face_size);
-        Serial2.print(','); // comma separator
-        Serial2.print(face_distance);
         Serial2.println('>'); // end marker
     }
 }
