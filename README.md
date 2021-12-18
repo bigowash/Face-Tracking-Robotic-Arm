@@ -23,7 +23,6 @@ At first, using the cardboard, I realised that multiple layers were required to 
 ![](images/ArmRendr.4.jpg)
 ![](images/ArmRendr.5.jpg)
 ![](images/ArmRendr.8.png)
-![](images/ArmRendr.9.png)
 ![](images/exploded.png)
 
 ### Final Model
