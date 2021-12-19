@@ -4,6 +4,8 @@
  
 This project -- *Ode to Plywood* -- reflects the work of the GIZMO (physical computing) module at Imperial College London Design Engineering. The brief required us to create **human interaction with a 'robot'** using plywood. I decided to create a robotic arm and for the interaction, make it detect and track faces. The arm could also extensively be controlled by an infrared remote. 
 
+Youtube video: https://youtu.be/CfiG-eKf2Ww
+
 Below I will go over the process I went over for this project. The code uploaded to the board and camera is included in the "code" directory.
 
 ## Construction of Arm
