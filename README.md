@@ -1,4 +1,4 @@
-![](images/true_arm.png)
+![](images/simple.png)
 
 # Brief
  
@@ -20,6 +20,7 @@ Before cutting the plywood sheets I needed to understand how to transform the 3d
 
 At first, using the cardboard, I realised that multiple layers were required to maintain the structural integrety of the arm. This was not the case with plywood and I eneded up with excess pieces after laser cutting. Once the prototype was finished, CAD was required to display the arm professionally and to know what parts were required for lasercutting.
 
+![](images/simple2.png)
 ![](images/ArmRendr.0.png)
 ![](images/ArmRendr.2.png)
 ![](images/ArmRendr.4.jpg)
